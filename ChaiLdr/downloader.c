@@ -4,7 +4,7 @@
 
 #include "include/common.h"
 
-DWORD Download(char** response, PVOID url, PVOID endpoint)
+DWORD Download(char** response, PVOID url, PVOID endpoint, BOOL ssl)
 {
 	DWORD bytesRead = 0;
 	DWORD totalBytesRead = 0;
@@ -17,7 +17,11 @@ DWORD Download(char** response, PVOID url, PVOID endpoint)
 		return -1;
 
 	// connect to remote server
-	HINTERNET hConnect = InternetConnectA(hInternet, url, INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD_PTR)NULL);
+	HINTERNET hConnect = NULL;
+	if(ssl)
+		hConnect = InternetConnectA(hInternet, url, INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD_PTR)NULL);
+	else
+		hConnect = InternetConnectA(hInternet, url, INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD_PTR)NULL);
 
 	if (hConnect == NULL)
 	{
@@ -25,11 +29,19 @@ DWORD Download(char** response, PVOID url, PVOID endpoint)
 		return -1;
 	}
 
-	HINTERNET hRequest = HttpOpenRequestA(hConnect, "GET", endpoint , NULL, NULL, NULL, (INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE), 0);
+	HINTERNET hRequest = NULL;
+	if(ssl)
+		hRequest = HttpOpenRequestA(hConnect, "GET", endpoint , NULL, NULL, NULL, (INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE), 0);
+	else
+		hRequest = HttpOpenRequestA(hConnect, "GET", endpoint, NULL, NULL, NULL, (INTERNET_FLAG_DONT_CACHE), 0);
+
+	DWORD flags = SECURITY_FLAG_IGNORE_UNKNOWN_CA | SECURITY_FLAG_IGNORE_CERT_CN_INVALID | SECURITY_FLAG_IGNORE_CERT_DATE_INVALID;
+
+	InternetSetOptionA(hRequest, INTERNET_OPTION_SECURITY_FLAGS,&flags,sizeof(flags));
 
 	BOOL status = HttpSendRequestA(hRequest,NULL,0,NULL,0);
 	if (!status)
-		printf("ERROR!!!!!!\n");
+		printf("ERROR!!!!!! :: %d\n",GetLastError());
 
 	DWORD dwBytesRead = NULL;
 	SIZE_T sSize = 0;

