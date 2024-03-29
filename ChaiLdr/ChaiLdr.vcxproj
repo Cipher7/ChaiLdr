@@ -140,6 +140,7 @@
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\structs.h" />
     <ClInclude Include="include\syswhispers-apc.h" />
+    <ClInclude Include="include\typedef.h" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="include\syswhispers-apc-asm.x64.asm" />
