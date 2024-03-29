@@ -4,23 +4,39 @@
 
 #include "include/common.h"
 
-DWORD Download(char** response, PVOID url)
+DWORD Download(char** response, PVOID url, PVOID endpoint)
 {
 	DWORD bytesRead = 0;
 	DWORD totalBytesRead = 0;
 	const DWORD bufferSize = 1024;
 	char buffer[1024];
 
-	HINTERNET hInternet = InternetOpenA(NULL, NULL, NULL, NULL, NULL);
+	HINTERNET hInternet = InternetOpenA("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 
-	HINTERNET hInternetFile = InternetOpenUrlA(hInternet, url, NULL, NULL, (INTERNET_FLAG_HYPERLINK | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID | INTERNET_FLAG_IGNORE_CERT_CN_INVALID | SECURITY_FLAG_IGNORE_UNKNOWN_CA), NULL);
+	if (hInternet == NULL)
+		return -1;
+
+	// connect to remote server
+	HINTERNET hConnect = InternetConnectA(hInternet, url, INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD_PTR)NULL);
+
+	if (hConnect == NULL)
+	{
+		InternetCloseHandle(hInternet);
+		return -1;
+	}
+
+	HINTERNET hRequest = HttpOpenRequestA(hConnect, "GET", endpoint , NULL, NULL, NULL, (INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE), 0);
+
+	BOOL status = HttpSendRequestA(hRequest,NULL,0,NULL,0);
+	if (!status)
+		printf("ERROR!!!!!!\n");
 
 	DWORD dwBytesRead = NULL;
 	SIZE_T sSize = 0;
 
 	*response = (char*)malloc(1);
 	do {
-		if (InternetReadFile(hInternetFile, buffer, bufferSize, &bytesRead)) {
+		if (InternetReadFile(hRequest, buffer, bufferSize, &bytesRead)) {
 			if (bytesRead > 0) {
 				char* temp = (char*)realloc(*response, totalBytesRead + bytesRead + 1);
 				if (temp == NULL) {
@@ -37,7 +53,6 @@ DWORD Download(char** response, PVOID url)
 	} while (bytesRead > 0);
 
 	InternetCloseHandle(hInternet);
-	InternetCloseHandle(hInternetFile);
-	InternetSetOptionW(NULL, INTERNET_OPTION_SETTINGS_CHANGED, NULL, 0);
+	InternetCloseHandle(hRequest);
 	return totalBytesRead;
 }

