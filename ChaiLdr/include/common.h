@@ -19,3 +19,6 @@ BOOL InitiateInjection(PVOID pPayload, SIZE_T sSize);
 // apihashing.c
 FARPROC GetProcAddressH(HMODULE hModule, DWORD dwApiNameHash);
 HMODULE GetModuleHandleH(DWORD dwModuleNameHash);
+
+// apihammer.c
+BOOL ApiHammering(DWORD Stress);
