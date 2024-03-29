@@ -14,6 +14,7 @@ UINT32 HashStringJenkinsOneAtATime32BitA(_In_ PCHAR String);
 // inject.c
 BOOL ApcInjectionViaSyscalls(HANDLE hProcess, HANDLE hThread, PVOID pPayload, SIZE_T sSize);
 void RandomFunction();
+BOOL InitiateInjection(PVOID pPayload, SIZE_T sSize);
 
 // apihashing.c
 FARPROC GetProcAddressH(HMODULE hModule, DWORD dwApiNameHash);
