@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChaiLdr", "ChaiLdr.vcxproj", "{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Debug|x64.ActiveCfg = Debug|x64
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Debug|x64.Build.0 = Debug|x64
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Debug|x86.ActiveCfg = Debug|Win32
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Debug|x86.Build.0 = Debug|Win32
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Release|x64.ActiveCfg = Release|x64
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Release|x64.Build.0 = Release|x64
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Release|x86.ActiveCfg = Release|Win32
+		{CD4D53A9-2DB8-4408-90A0-896B2BC4C9F8}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77C2883E-EB4A-43DA-ADD5-CB888F1627EE}
+	EndGlobalSection
+EndGlobal
