@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="apihammer.c" />
     <ClCompile Include="apihashing.c" />
+    <ClCompile Include="downloader.c" />
     <ClCompile Include="include\syswhispers-apc.c" />
     <ClCompile Include="inject.c" />
     <ClCompile Include="main.c" />

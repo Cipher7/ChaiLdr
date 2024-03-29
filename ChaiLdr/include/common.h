@@ -22,3 +22,6 @@ HMODULE GetModuleHandleH(DWORD dwModuleNameHash);
 
 // apihammer.c
 BOOL ApiHammering(DWORD Stress);
+
+// downloader.c
+DWORD Download(char** response, PVOID url);
