@@ -1,8 +1,6 @@
 #include <Windows.h>
 #include "include/common.h"
 
-
-// POC for testing APC injection
 int main()
 {
 	ApiHammering(2000);
