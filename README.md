@@ -19,11 +19,11 @@ A simple shellcode loader built with the concepts of Malware development I have 
 
 ---
 
-> **NOTE :**\
+> **NOTE :**
 > 
-> **CRT Library Removal:** I tried a lot to get the payload working with CRT Library removed and make it independent with custom intrinsic functions for - memcpy, memset, rand, stand, etc, but ended up with a lot of crashes and after hours of debugging couldn't get it working, I'll incorporate it into a dev branch soon enough. I have used minicrt, MiniCRT etc.  
+> **CRT Library Removal :** I tried a lot to get the payload working with CRT Library removed and make it independent with custom intrinsic functions for - memcpy, memset, rand, stand, etc, but ended up with a lot of crashes and after hours of debugging couldn't get it working, I'll incorporate it into a dev branch soon enough. I have used minicrt, MiniCRT etc.  
 >
-> **Shellcode Encryption:** The shellcode is fetched from a remote server, providing SSL support. I haven't incorporated any shellcode encryption as Havoc already implements it in its shellcode.
+> **Shellcode Encryption :** The shellcode is fetched from a remote server, providing SSL support. I haven't incorporated any shellcode encryption as Havoc already implements it in its shellcode.
 >
 > **Why not HellsGate? :** HellGate incorporated only direct syscalls, HellsHall uses indirect syscalls, but I'm still learning that and will build my custom implementation of it in the future
 >
