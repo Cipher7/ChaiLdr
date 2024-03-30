@@ -28,6 +28,8 @@ FARPROC GetProcAddressH(HMODULE hModule, DWORD dwApiNameHash)
 	for (DWORD i = 0; i < pImgExportDir->NumberOfFunctions; i++) {
 		CHAR* pFunctionName = (CHAR*)(pBase + FunctionNameArray[i]);
 		PVOID	pFunctionAddress = (PVOID)(pBase + FunctionAddressArray[FunctionOrdinalArray[i]]);
+		
+		printf(":: %s :: 0x%0.8X\n", pFunctionName, HASHA(pFunctionName));
 
 		if (dwApiNameHash == HASHA(pFunctionName)) {
 			return pFunctionAddress;
@@ -64,7 +66,7 @@ HMODULE GetModuleHandleH(DWORD dwModuleNameHash) {
 				i++;
 			}
 			UpperCaseDllName[i] = '\0';
-
+			// printf(":: %s :: 0x%0.8X\n",UpperCaseDllName, HASHA(UpperCaseDllName));
 			if (HASHA(UpperCaseDllName) == dwModuleNameHash)
 				return (HMODULE)(pDte->InInitializationOrderLinks.Flink);
 

@@ -18,3 +18,5 @@ typedef BOOL(WINAPI* fnHttpSendRequestA)(HINTERNET hRequest, LPCSTR lpszHeaders,
 typedef BOOL(WINAPI* fnInternetReadFile)(HINTERNET hFile, LPVOID lpBuffer, DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
 
 typedef BOOL(WINAPI* fnInternetCloseHandle)(HINTERNET hInternet);
+
+typedef HMODULE(WINAPI* fnLoadLibraryA)(LPCSTR lpLibFileName);

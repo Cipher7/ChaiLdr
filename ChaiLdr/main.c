@@ -12,7 +12,7 @@ int main()
 	PSTR url = "127.0.0.1";
 	PSTR endpoint = "/calc.bin";
 	
-	SIZE_T sSize = Download(&pPayload, url, endpoint, TRUE);
+	SIZE_T sSize = Download(&pPayload, url, endpoint, FALSE);
 
 	if (sSize == -1)
 		goto _Cleanup;
