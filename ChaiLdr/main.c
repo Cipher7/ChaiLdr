@@ -25,7 +25,6 @@ int main()
 	}
 	printf("\n");
 
-	getchar();
 	if (InitiateInjection(pPayload,sSize))
 	{
 		return -1;
