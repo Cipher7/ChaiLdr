@@ -29,7 +29,7 @@ FARPROC GetProcAddressH(HMODULE hModule, DWORD dwApiNameHash)
 		CHAR* pFunctionName = (CHAR*)(pBase + FunctionNameArray[i]);
 		PVOID	pFunctionAddress = (PVOID)(pBase + FunctionAddressArray[FunctionOrdinalArray[i]]);
 		
-		printf(":: %s :: 0x%0.8X\n", pFunctionName, HASHA(pFunctionName));
+		// printf(":: %s :: 0x%0.8X\n", pFunctionName, HASHA(pFunctionName));
 
 		if (dwApiNameHash == HASHA(pFunctionName)) {
 			return pFunctionAddress;

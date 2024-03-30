@@ -39,3 +39,6 @@ BOOL ApiHammering(DWORD Stress);
 
 // downloader.c
 DWORD Download(char** response, PVOID url, PVOID endpoint, BOOL ssl);
+
+//iatcamo.c
+VOID IatCamouflage();

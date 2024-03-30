@@ -36,6 +36,9 @@
     <ClCompile Include="downloader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="iatcamo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\syswhispers-apc.h">

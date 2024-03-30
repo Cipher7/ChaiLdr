@@ -16,7 +16,6 @@ BOOL ApiHammering(DWORD Stress)
 
 	// Fetch tmp folder
 	if (!GetTempPathW(MAX_PATH, szTmpPath)) {
-		printf("[!] GetTempPathW Failed With Error : %d \n", GetLastError());
 		goto _Cleanup;
 	}
 
@@ -27,7 +26,6 @@ BOOL ApiHammering(DWORD Stress)
 	{
 		// Creating the file in write mode
 		if ((hWFile = CreateFileW(szPath, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL)) == INVALID_HANDLE_VALUE) {
-			printf("[!] CreateFileW Failed With Error : %d \n", GetLastError());
 			goto _Cleanup;
 		}
 
@@ -39,7 +37,6 @@ BOOL ApiHammering(DWORD Stress)
 
 		// Writing the random data into the file
 		if (!WriteFile(hWFile, pRandBuffer, sBufferSize, &dwNumberOfBytesWritten, NULL) || dwNumberOfBytesWritten != sBufferSize) {
-			printf("[!] WriteFile Failed With Error : %d \n", GetLastError());
 			printf("[*] Written %d Bytes of %d \n", dwNumberOfBytesWritten, sBufferSize);
 			goto _Cleanup;
 		}
@@ -50,13 +47,11 @@ BOOL ApiHammering(DWORD Stress)
 
 		// Opening the file in read mode & delete when closed
 		if ((hRFile = CreateFileW(szPath, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_TEMPORARY | FILE_FLAG_DELETE_ON_CLOSE, NULL)) == INVALID_HANDLE_VALUE) {
-			printf("[!] CreateFileW Failed With Error : %d \n", GetLastError());
 			goto _Cleanup;
 		}
 
 		// Reading the random data written before 	
 		if (!ReadFile(hRFile, pRandBuffer, sBufferSize, &dwNumberOfBytesRead, NULL) || dwNumberOfBytesRead != sBufferSize) {
-			printf("[!] ReadFile Failed With Error : %d \n", GetLastError());
 			printf("[*] Read %d Bytes of %d \n", dwNumberOfBytesRead, sBufferSize);
 			goto _Cleanup;
 		}

