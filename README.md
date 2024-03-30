@@ -19,7 +19,7 @@ A simple shellcode loader built with the concepts of Malware development I have 
 
 ---
 
-> **NOTE :**
+## **NOTE**
 > 
 > **CRT Library Removal :** I tried a lot to get the payload working with CRT Library removed and make it independent with custom intrinsic functions for - memcpy, memset, rand, stand, etc, but ended up with a lot of crashes and after hours of debugging couldn't get it working, I'll incorporate it into a dev branch soon enough. I have used minicrt, MiniCRT, etc for references but still couldn't get it to work.  
 >
